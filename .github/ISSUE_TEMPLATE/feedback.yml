@@ -1,0 +1,32 @@
+name: Prototype feedback
+description: Report a visual, interaction or content issue in the UniCycleHK prototype.
+title: "[Feedback] "
+labels: [feedback]
+body:
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Marketplace and search
+        - Product details
+        - Sell an item
+        - Messages and handover
+        - Mobile layout
+        - Accessibility
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: observation
+    attributes:
+      label: What happened?
+      description: Include the page, device and steps needed to reproduce the issue.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect?
+    validations:
+      required: true

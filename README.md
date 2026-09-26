@@ -13,11 +13,12 @@
 ## 建议演示路径
 
 1. 在主页浏览和筛选真实留学生日用品。
-2. 点击商品卡片查看商品详情和已验证卖家资料。
-3. 点击 `Message seller` 演示聊天及校园交收。
-4. 点击 `Mark handover as complete` 演示双向评价。
-5. 点击 `Sell an item` 演示三步发布流程。
-6. 点击侧栏的 `View verification` 演示大学邮箱认证状态。
+2. 点击顶部 `Meet-up area`，切换校园正门、Festival Walk、港铁出口、宿舍或南山邨等交收区域。
+3. 点击商品卡片查看商品详情和已验证卖家资料。
+4. 点击 `Message seller` 演示聊天及校园交收。
+5. 点击 `Mark handover as complete` 演示双向评价。
+6. 点击 `Sell an item` 演示三步发布流程。
+7. 点击侧栏的 `View verification` 演示大学邮箱认证状态。
 
 收藏、发布商品、压缩后的商品图片、聊天、评分和未完成草稿都会保存在当前浏览器。可以从个人资料窗口导出或重置这些演示数据。
 
@@ -28,6 +29,7 @@
 - 本地商品图片，无网络依赖
 - Progressive Web App，可安装并支持离线打开
 - LocalStorage 本地持久化和商品深链接
+- 12 件学生实拍风格商品，并按所选交收区域优先排序
 - 独立 404 页面和版本化 Service Worker 缓存，错误页面不会污染离线首页
 - 桌面端侧栏和移动端底部导航
 - GitHub Actions 自动检查并部署 GitHub Pages

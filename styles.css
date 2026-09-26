@@ -100,7 +100,9 @@ main { max-width: 1500px; margin: 0 auto; padding: 46px 4vw 90px; }
 .eyebrow { margin: 0 0 8px; color: var(--mint-dark); font-size: 12px; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; }
 .intro-row h1 { margin: 0; max-width: 790px; padding-left: 22px; border-left: 9px solid var(--mint); font-size: clamp(38px, 4.3vw, 68px); line-height: .98; letter-spacing: -.055em; }
 .intro-row h1 em { color: var(--mint); font-family: inherit; font-weight: 800; font-style: normal; }
-.campus-pill { min-width: 270px; display: flex; align-items: center; gap: 12px; padding: 13px 14px; border: 1px solid var(--line); border-radius: 18px; background: #fff; box-shadow: var(--shadow-sm); }
+.campus-pill { min-width: 270px; display: flex; align-items: center; gap: 12px; padding: 13px 14px; border: 1px solid var(--line); border-radius: 18px; color: var(--ink); background: #fff; box-shadow: var(--shadow-sm); text-align: left; transition: border-color .2s ease, transform .15s ease, box-shadow .2s ease; }
+.campus-pill:hover { border-color: var(--mint); box-shadow: 0 10px 28px rgba(85,17,51,.12); }
+.campus-pill:active { transform: scale(.985); }
 .campus-pill > svg:first-child { width: 38px; height: 38px; padding: 8px; border-radius: 12px; color: var(--mint-dark); background: var(--mint-50); }
 .campus-pill span { min-width: 0; flex: 1; }
 .campus-pill small, .campus-pill strong { display: block; }
@@ -127,6 +129,7 @@ main { max-width: 1500px; margin: 0 auto; padding: 46px 4vw 90px; }
 .product-card:active { transform: translateY(-2px) scale(.995); }
 @keyframes card-in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
 .product-image { background-image: image-set(url("assets/product-sprite.webp") type("image/webp"), url("assets/product-sprite.png") type("image/png")); background-size: 300% 200%; background-repeat: no-repeat; background-position: center; }
+.product-image.sheet-2 { background-image: image-set(url("assets/product-sprite-2.webp") type("image/webp"), url("assets/product-sprite-2.png") type("image/png")); }
 .product-image.custom-image { background-size: cover; background-position: center; }
 .sprite-0 { background-position: 0% 0%; }
 .sprite-1 { background-position: 50% 0%; }
@@ -245,6 +248,25 @@ dialog[open] { animation: dialog-in .22s ease-out; }
 .feedback-link { display: inline-flex; min-height: 44px; align-items: center; justify-content: center; color: var(--muted); font-size: 12px; font-weight: 700; }
 .feedback-link:hover { color: var(--mint-dark); }
 
+.meetup-dialog { width: min(610px, calc(100vw - 32px)); max-height: calc(100dvh - 32px); padding: 32px; border-radius: 28px; overflow: auto; }
+.meetup-dialog .dialog-header h2 { margin: 0; font-size: 30px; letter-spacing: -.04em; }
+.meetup-dialog .dialog-header p:last-child { max-width: 420px; margin: 8px 0 0; color: var(--muted); font-size: 14px; line-height: 1.5; }
+.meetup-list { display: grid; gap: 9px; margin: 26px 0 18px; }
+.meetup-option { min-height: 68px; display: grid; grid-template-columns: 42px 1fr 24px; align-items: center; gap: 12px; padding: 10px 13px; border: 1px solid var(--line); border-radius: 14px; color: var(--ink); background: #fff; text-align: left; transition: border-color .18s ease, background .18s ease, transform .15s ease; }
+.meetup-option:hover { border-color: #c98bad; background: var(--mint-50); }
+.meetup-option:active { transform: scale(.99); }
+.meetup-option.selected { border-color: var(--mint); background: var(--mint-50); box-shadow: inset 4px 0 0 var(--mint); }
+.meetup-option > span:nth-child(2) { min-width: 0; }
+.meetup-option strong, .meetup-option small { display: block; }
+.meetup-option strong { font-size: 14px; }
+.meetup-option small { margin-top: 3px; color: var(--muted); font-size: 11px; }
+.meetup-option > .verified-mini { visibility: hidden; }
+.meetup-option.selected > .verified-mini { visibility: visible; }
+.meetup-pin { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 12px; color: var(--mint-dark); background: #fff; border: 1px solid #efd7e4; }
+.meetup-pin svg { width: 20px; height: 20px; }
+.meetup-privacy { display: flex; align-items: center; gap: 8px; margin: 0 0 18px; color: var(--muted); font-size: 12px; }
+.meetup-privacy svg { width: 17px; height: 17px; color: var(--mint-dark); }
+
 .chat-panel { position: fixed; top: 0; right: 0; bottom: 0; z-index: 90; width: min(410px, 100vw); display: flex; flex-direction: column; padding: 20px; background: #fff; box-shadow: -18px 0 60px rgba(12,47,54,.2); transform: translateX(105%); visibility: hidden; transition: transform .28s ease, visibility .28s; }
 .chat-panel.open { transform: none; visibility: visible; }
 .chat-header { display: grid; grid-template-columns: 46px 42px 1fr; align-items: center; gap: 10px; padding-bottom: 16px; border-bottom: 1px solid var(--line); }
@@ -347,6 +369,7 @@ dialog[open] { animation: dialog-in .22s ease-out; }
   .form-actions .primary-button { flex: 1; }
   .listing-preview { flex-direction: column; text-align: center; }
   .verify-dialog, .rating-dialog { margin: auto 12px 12px; width: calc(100vw - 24px); border-radius: 26px; }
+  .meetup-dialog { width: 100vw; max-width: none; max-height: 94dvh; margin: auto 0 0; padding: 24px 18px calc(22px + env(safe-area-inset-bottom)); border-radius: 26px 26px 0 0; }
   .chat-panel { padding-bottom: calc(18px + env(safe-area-inset-bottom)); }
   .toast { bottom: 92px; width: calc(100vw - 32px); }
 }

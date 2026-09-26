@@ -1,4 +1,4 @@
-const CACHE_NAME = "unicyclehk-shell-v4";
+const CACHE_NAME = "unicyclehk-shell-v5";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -9,6 +9,8 @@ const APP_SHELL = [
   "./assets/bootstrap.bundle.min.js",
   "./assets/product-sprite.webp",
   "./assets/product-sprite.png",
+  "./assets/product-sprite-2.webp",
+  "./assets/product-sprite-2.png",
   "./assets/icon.svg",
   "./assets/icon-192.png",
   "./assets/icon-512.png"

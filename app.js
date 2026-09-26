@@ -5,11 +5,25 @@ const DEFAULT_PRODUCTS = [
   { id: 4, title: "Yoga mat with carry strap", category: "Lifestyle", price: 45, condition: "Lightly used", location: "CityU main campus", time: "2 hrs ago", age: 120, seller: "Nora", initials: "NZ", rating: "4.9 · 7 exchanges", image: 3, description: "Purple exercise mat with carrying strap. Used only a few times, wiped clean and ready to go. Easy to carry to the sports centre.", pickup: "CityU main entrance" },
   { id: 5, title: "Portable induction cooker", category: "Appliances", price: 110, condition: "Works perfectly", location: "Shek Kip Mei", time: "Yesterday", age: 1440, seller: "Santiago", initials: "SM", rating: "4.7 · 14 exchanges", image: 4, description: "Single-zone induction cooker suitable for a small flat. All controls work and the cable is intact. Visible surface scratches do not affect use.", pickup: "Shek Kip Mei MTR Exit B2" },
   { id: 6, title: "Floor lamp with bedside shelf", category: "Furniture", price: 90, condition: "Good condition", location: "CityU residence", time: "Yesterday", age: 1500, seller: "Eva", initials: "ET", rating: "4.9 · 22 exchanges", image: 5, description: "Warm floor lamp with two small shelves for books or bedside items. Bulb included. Slim design fits comfortably in a compact student room.", pickup: "Student residence lobby" },
+  { id: 7, title: "Compact microwave oven", category: "Appliances", price: 130, condition: "Works well", location: "Nam Shan Estate", time: "18 min ago", age: 18, seller: "Aarav", initials: "AP", rating: "4.8 · 12 exchanges", spriteSheet: 2, image: 0, description: "Compact microwave suitable for a shared student kitchen. Heating and timer controls work normally. Cleaned inside and ready for pickup.", pickup: "Nam Shan Estate plaza" },
+  { id: 8, title: "Full-length standing mirror", category: "Furniture", price: 95, condition: "Lightly used", location: "Kowloon Tong", time: "35 min ago", age: 35, seller: "Sofia", initials: "SC", rating: "5.0 · 6 exchanges", spriteSheet: 2, image: 1, description: "Slim full-length mirror with a stable metal frame. No cracks or chips. Easy to carry in a taxi or larger car.", pickup: "Kowloon Tong MTR Exit C" },
+  { id: 9, title: "Folding clothes drying rack", category: "Lifestyle", price: 55, condition: "Good condition", location: "CityU residence", time: "52 min ago", age: 52, seller: "Haruto", initials: "HM", rating: "4.9 · 16 exchanges", spriteSheet: 2, image: 2, description: "Lightweight folding drying rack with plenty of space for daily laundry. Folds flat for storage and has no broken rails.", pickup: "Student residence lobby" },
+  { id: 10, title: "Three-drawer bedside cabinet", category: "Furniture", price: 120, condition: "Used, sturdy", location: "CityU residence", time: "3 hrs ago", age: 180, seller: "Lina", initials: "LW", rating: "4.7 · 10 exchanges", spriteSheet: 2, image: 3, description: "Compact three-drawer cabinet with normal signs of use. Drawers open smoothly and it fits beside a single student bed.", pickup: "Student residence lobby" },
+  { id: 11, title: "Quiet desktop fan", category: "Appliances", price: 60, condition: "Good condition", location: "CityU main campus", time: "4 hrs ago", age: 240, seller: "Noah", initials: "NK", rating: "4.8 · 8 exchanges", spriteSheet: 2, image: 4, description: "Small desktop fan with two speed settings. Quiet enough for studying and useful during warm evenings in a compact room.", pickup: "CityU main entrance" },
+  { id: 12, title: "Slim rolling storage trolley", category: "Furniture", price: 85, condition: "Good condition", location: "Festival Walk", time: "Yesterday", age: 1480, seller: "Maya", initials: "MR", rating: "4.9 · 19 exchanges", spriteSheet: 2, image: 5, description: "Three-tier rolling trolley for toiletries, kitchen supplies or stationery. Wheels move smoothly and the narrow frame fits small flats.", pickup: "Festival Walk atrium" },
 ];
 
 const STORAGE_KEY = "unicyclehk-demo-v4";
 localStorage.removeItem("unicyclehk-demo-v3");
 const DEFAULT_SAVED = [2, 5];
+const MEETUP_AREAS = {
+  all: { name: "CityU & Kowloon Tong", terms: [] },
+  "cityu-main": { name: "CityU main entrance", terms: ["CityU main campus", "CityU main entrance", "CityU campus"] },
+  "festival-walk": { name: "Festival Walk atrium", terms: ["Festival Walk"] },
+  "mtr-exit-c": { name: "Kowloon Tong MTR Exit C", terms: ["Kowloon Tong"] },
+  residence: { name: "Student residence lobby", terms: ["CityU residence", "Student residence"] },
+  "nam-shan": { name: "Nam Shan Estate plaza", terms: ["Nam Shan Estate"] },
+};
 const $ = (selector, scope = document) => scope.querySelector(selector);
 const $$ = (selector, scope = document) => [...scope.querySelectorAll(selector)];
 const money = (value) => `HK$${Number(value).toLocaleString("en-HK")}`;
@@ -28,6 +42,8 @@ const state = {
   activeProduct: products[0], formStep: 1, rating: 0,
   messages: persisted.messages || {}, reviews: persisted.reviews || {},
   draft: persisted.draft || null, photoData: persisted.draft?.photoData || null,
+  meetup: MEETUP_AREAS[persisted.meetup] ? persisted.meetup : "all",
+  pendingMeetup: MEETUP_AREAS[persisted.meetup] ? persisted.meetup : "all",
   installPrompt: null,
 };
 
@@ -50,7 +66,7 @@ function showToast(message) {
 }
 
 function persistState({ quiet = true } = {}) {
-  const data = { products: products.filter((product) => product.local), saved: [...state.saved], messages: state.messages, reviews: state.reviews, draft: state.draft };
+  const data = { products: products.filter((product) => product.local), saved: [...state.saved], messages: state.messages, reviews: state.reviews, draft: state.draft, meetup: state.meetup };
   try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); return true; }
   catch { if (!quiet) showToast("This browser is out of local storage space"); return false; }
 }
@@ -59,7 +75,8 @@ function findProduct(id) { return products.find((product) => String(product.id) 
 
 function productImageMarkup(product, extraClass = "", label = product.title) {
   if (product.imageData) return `<div class="product-image custom-image ${extraClass}" style="background-image:url('${product.imageData}')" role="img" aria-label="${escapeHtml(label)}"></div>`;
-  return `<div class="product-image sprite-${product.image} ${extraClass}" role="img" aria-label="${escapeHtml(label)}"></div>`;
+  const sheetClass = product.spriteSheet === 2 ? "sheet-2" : "";
+  return `<div class="product-image ${sheetClass} sprite-${product.image} ${extraClass}" role="img" aria-label="${escapeHtml(label)}"></div>`;
 }
 
 function productCard(product, index) {
@@ -85,9 +102,16 @@ function filteredProducts() {
     const queryMatch = !query || `${product.title} ${product.category} ${product.location}`.toLowerCase().includes(query);
     return categoryMatch && queryMatch;
   });
-  if (state.sort === "priceLow") return [...list].sort((a, b) => a.price - b.price);
-  if (state.sort === "newest") return [...list].sort((a, b) => a.age - b.age);
-  return list;
+  let sorted = [...list];
+  if (state.sort === "priceLow") sorted.sort((a, b) => a.price - b.price);
+  if (state.sort === "newest") sorted.sort((a, b) => a.age - b.age);
+  if (state.meetup !== "all") sorted.sort((a, b) => Number(productMatchesMeetup(b)) - Number(productMatchesMeetup(a)));
+  return sorted;
+}
+
+function productMatchesMeetup(product) {
+  const terms = MEETUP_AREAS[state.meetup]?.terms || [];
+  return terms.some((term) => `${product.location} ${product.pickup}`.includes(term));
 }
 
 function renderProducts(list = filteredProducts(), label = null) {
@@ -106,7 +130,10 @@ function renderCurrentMarket() {
     return;
   }
   $("#market-title").textContent = "Recommended near you";
-  renderProducts();
+  const list = filteredProducts();
+  const area = MEETUP_AREAS[state.meetup];
+  const label = state.meetup === "all" ? null : `${list.length} items · ${area.name} prioritised`;
+  renderProducts(list, label);
 }
 
 function openDialog(dialog) { if (dialog && !dialog.open) dialog.showModal(); }
@@ -128,7 +155,7 @@ function openProductView(product) {
       <p class="detail-description">${escapeHtml(product.description)}</p>
       <div class="detail-facts"><div class="detail-fact"><small>Preferred handover</small><strong>${escapeHtml(product.pickup)}</strong></div><div class="detail-fact"><small>Listed</small><strong>${escapeHtml(product.time)}</strong></div></div>
       <div class="seller-card"><div class="avatar seller-avatar">${escapeHtml(product.initials)}</div><div><strong>${escapeHtml(product.seller)}</strong><span>Verified student seller</span></div><span class="seller-rating">${escapeHtml(product.rating)}</span></div>
-      <div class="detail-actions"><button class="primary-button" id="messageSeller">${icon("message")}Message seller</button><button class="secondary-button" id="detailSave" aria-pressed="${saved}">${icon("heart")}${saved ? "Saved" : "Save"}</button><button class="secondary-button share-button" id="shareItem">${icon("share")}Share</button></div>
+      <div class="detail-actions"><button class="primary-button" id="messageSeller">${icon("message")}Message</button><button class="secondary-button" id="detailSave" aria-pressed="${saved}">${icon("heart")}${saved ? "Saved" : "Save"}</button><button class="secondary-button share-button" id="shareItem">${icon("share")}Share</button></div>
       <p class="safe-line">${icon("shield")}Meet in a public campus location. Inspect the item before paying.</p>
     </div>
   </div>`;
@@ -270,6 +297,24 @@ function compressPhoto(file) {
   });
 }
 
+function renderMeetupOptions() {
+  $$(".meetup-option").forEach((option) => {
+    const selected = option.dataset.meetup === state.pendingMeetup;
+    option.classList.toggle("selected", selected);
+    option.setAttribute("aria-pressed", selected);
+  });
+}
+
+function openMeetupView() {
+  state.pendingMeetup = state.meetup;
+  renderMeetupOptions();
+  openDialog($("#meetupDialog"));
+}
+
+function updateMeetupDisplay() {
+  $("#currentMeetupName").textContent = MEETUP_AREAS[state.meetup].name;
+}
+
 function routeFromLocation() { return location.hash.replace(/^#/, "") || "home"; }
 function navigate(route, { replace = false } = {}) {
   history[replace ? "replaceState" : "pushState"]({ route }, "", `#${route}`);
@@ -293,6 +338,7 @@ function renderRoute(route) {
   if (route === "saved") { renderCurrentMarket(); window.scrollTo({ top: 0, behavior: "smooth" }); return; }
   if (route === "sell") { restoreDraft(); openDialog($("#sellDialog")); return; }
   if (route === "profile") { openDialog($("#verifyDialog")); return; }
+  if (route === "meetup") { openMeetupView(); return; }
   if (route.startsWith("item-")) { const product = findProduct(route.slice(5)); if (product) openProductView(product); else navigate("home", { replace: true }); return; }
   if (route.startsWith("messages-")) { const product = findProduct(route.slice(9)); if (product) openChatView(product); else navigate("home", { replace: true }); return; }
   if (route.startsWith("rating-")) { const product = findProduct(route.slice(7)); if (product) { state.activeProduct = product; openDialog($("#ratingDialog")); } else navigate("home", { replace: true }); return; }
@@ -339,6 +385,7 @@ $$('.category-chip').forEach((chip) => chip.addEventListener("click", () => {
 $("#clearFilters").addEventListener("click", () => navigate("home"));
 $$('[data-route]').forEach((button) => button.addEventListener("click", () => navigate(button.dataset.route === "messages" ? `messages-${state.activeProduct.id}` : button.dataset.route)));
 $("#openVerify").addEventListener("click", () => navigate("profile"));
+$("#openMeetup").addEventListener("click", () => navigate("meetup"));
 $("#openSell").addEventListener("click", () => navigate("sell"));
 $("#mobileSell").addEventListener("click", () => navigate("sell"));
 $$('[data-close]').forEach((button) => button.addEventListener("click", () => navigate("home")));
@@ -368,6 +415,20 @@ $("#photoInput").addEventListener("change", async (event) => {
   const [file] = event.target.files; if (!file) return;
   try { showToast("Preparing your photo…"); state.photoData = await compressPhoto(file); renderUploadPreview(state.photoData); saveDraft(); showToast("Photo added and saved locally"); }
   catch (error) { showToast(error.message); }
+});
+
+$$(".meetup-option").forEach((option) => option.addEventListener("click", () => {
+  state.pendingMeetup = option.dataset.meetup;
+  renderMeetupOptions();
+}));
+
+$("#applyMeetup").addEventListener("click", () => {
+  state.meetup = state.pendingMeetup;
+  persistState();
+  updateMeetupDisplay();
+  const areaName = MEETUP_AREAS[state.meetup].name;
+  navigate("home");
+  showToast(`${areaName} is now prioritised`);
 });
 
 $("#closeChat").addEventListener("click", () => navigate("home"));
@@ -412,6 +473,7 @@ window.addEventListener("popstate", () => renderRoute(routeFromLocation()));
 document.addEventListener("keydown", (event) => { if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") { event.preventDefault(); searchInput.focus(); } });
 
 if ("serviceWorker" in navigator && location.protocol !== "file:") window.addEventListener("load", () => navigator.serviceWorker.register("./service-worker.js").catch(() => {}));
+updateMeetupDisplay();
 updateConnectionStatus();
 updateFormStep();
 navigate(routeFromLocation(), { replace: true });

@@ -113,10 +113,23 @@
             <button class="category-chip" data-category="Lifestyle">Lifestyle</button>
           </section>
 
+          <section class="patent-feature" aria-labelledby="smart-match-title">
+            <div class="patent-copy">
+              <p class="eyebrow">CityUHK IP · IDF 414</p>
+              <h2 id="smart-match-title">Smart Match for student resale</h2>
+              <p>A concept adaptation of CityUHK’s buyer–seller marketplace matching patent, using campus, handover point, category, price and timing signals.</p>
+              <div class="patent-actions"><button class="primary-button" id="activateSmartMatch"><svg><use href="#i-sliders" /></svg>Try Smart Match</button><button class="text-link dark" id="openPatentDetails">View patent basis <svg><use href="#i-arrow" /></svg></button></div>
+            </div>
+            <div class="match-flow" aria-label="Buyer signals and seller listings feed into Smart Match">
+              <span><small>Buyer</small><strong>Needs + budget</strong></span><i>+</i><span><small>Seller</small><strong>Listing + timing</strong></span><b><svg><use href="#i-arrow" /></svg></b><span class="match-output"><small>Smart Match</small><strong>Ranked handovers</strong></span>
+            </div>
+            <p class="concept-label"><svg><use href="#i-shield" /></svg>Concept mock-up · licensing and technical validation required</p>
+          </section>
+
           <section class="market-section" aria-labelledby="market-title">
             <div class="section-head">
               <div><h2 id="market-title">Recommended near you</h2><p id="resultCount">6 items from verified students</p></div>
-              <label class="sort-control"><span class="sr-only">Sort listings</span><svg><use href="#i-sliders" /></svg><select id="sortSelect"><option value="recommended">Recommended</option><option value="priceLow">Price: low to high</option><option value="newest">Newest first</option></select></label>
+              <label class="sort-control"><span class="sr-only">Sort listings</span><svg><use href="#i-sliders" /></svg><select id="sortSelect"><option value="recommended">Recommended</option><option value="smartMatch">Smart Match · CityU IP</option><option value="priceLow">Price: low to high</option><option value="newest">Newest first</option></select></label>
             </div>
             <div class="product-grid" id="productGrid" aria-live="polite"></div>
             <div class="empty-state" id="emptyState" hidden>
@@ -180,6 +193,19 @@
       <div class="meetup-list" id="meetupList" role="group" aria-label="Available meet-up areas"></div>
       <p class="meetup-privacy"><svg><use href="#i-lock" /></svg>Your exact location is never requested or stored.</p>
       <button class="primary-button full" id="applyMeetup">Use this area</button>
+    </dialog>
+
+    <dialog id="patentDialog" class="patent-dialog">
+      <button class="dialog-close" data-close="patentDialog" aria-label="Close patent information"><svg><use href="#i-close" /></svg></button>
+      <p class="eyebrow">Proposed CityUHK technology integration</p>
+      <h2>Buyer–seller marketplace matching</h2>
+      <p class="patent-lead">UniCycleHK proposes adapting the matching principles of CityUHK patent US 11,030,690 B2 to a student second-hand marketplace.</p>
+      <dl class="patent-facts"><div><dt>Patent</dt><dd>US 11,030,690 B2</dd></div><div><dt>CityU IDF</dt><dd>414</dd></div><div><dt>Inventors</dt><dd>Liang Zheng and Chee Wei Tan</dd></div><div><dt>Original field</dt><dd>Buyer–seller matching for mobile-data trading</dd></div></dl>
+      <h3>Concept adaptation in this prototype</h3>
+      <ul class="patent-list"><li>Buyer inputs: university, preferred handover point, category and budget.</li><li>Seller inputs: asking price, item condition, urgency and available handover point.</li><li>Mock matching score ranks listings that are easier to trade locally and fit demonstrated preferences.</li></ul>
+      <div class="patent-warning"><svg><use href="#i-shield" /></svg><p>This is a course concept, not a licensed or claim-complete implementation. Commercial use would require KTO confirmation, licensing and technical validation.</p></div>
+      <div class="patent-links"><a href="https://www.cityu.edu.hk/kto/CityU_IP/414/414.pdf" target="_blank" rel="noreferrer">Official patent PDF</a><a href="https://www.cityu.edu.hk/kto/-/media/project/cityuhk/admin-department/kto/for-industry/find-new-opportunities-our-ip-portal-0/m/method-and-apparatus-for-matching/method-and-apparatus-for-matching-buyers.pdf?rev=6f7a6566332c4ae5b31854c0a00cd7a6" target="_blank" rel="noreferrer">CityU KTO opportunity brief</a></div>
+      <button class="primary-button full" id="activateSmartMatchDialog"><svg><use href="#i-sliders" /></svg>Run the mock Smart Match</button>
     </dialog>
 
     <aside class="chat-panel" id="chatPanel" aria-label="Chat with seller" aria-hidden="true">

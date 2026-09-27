@@ -142,6 +142,7 @@ function filteredProducts() {
     return categoryMatch && queryMatch;
   });
   let sorted = [...list];
+  if (state.sort === "smartMatch") return sorted.sort((a, b) => smartMatchScore(b) - smartMatchScore(a));
   if (state.sort === "priceLow") sorted.sort((a, b) => a.price - b.price);
   if (state.sort === "newest") sorted.sort((a, b) => a.age - b.age);
   sorted.sort((a, b) => productLocationScore(b) - productLocationScore(a));
@@ -153,6 +154,23 @@ function productLocationScore(product) {
   const selectedPoint = UNIVERSITIES[state.university].points.find((point) => point.id === state.meetup);
   if (selectedPoint && product.pickup === selectedPoint.name) score += 2;
   return score;
+}
+
+function smartMatchScore(product) {
+  const savedCategories = new Set(products.filter((item) => state.saved.has(item.id)).map((item) => item.category));
+  const locationScore = productLocationScore(product) * 28;
+  const preferenceScore = savedCategories.has(product.category) ? 16 : 0;
+  const recencyScore = Math.max(0, 10 - Math.min(product.age, 1440) / 144);
+  const affordabilityScore = product.price <= 150 ? 6 : product.price <= 250 ? 3 : 0;
+  const sellerScore = (Number.parseFloat(product.rating) || 4.5) * 2;
+  return locationScore + preferenceScore + recencyScore + affordabilityScore + sellerScore;
+}
+
+function runSmartMatch() {
+  state.sort = "smartMatch";
+  sortSelect.value = "smartMatch";
+  navigate("home");
+  showToast("Smart Match ranked listings using this demo’s local signals");
 }
 
 function renderProducts(list = filteredProducts(), label = null) {
@@ -411,6 +429,7 @@ function renderRoute(route) {
   if (route === "sell") { restoreDraft(); openDialog($("#sellDialog")); return; }
   if (route === "profile") { openDialog($("#verifyDialog")); return; }
   if (route === "meetup") { openMeetupView(); return; }
+  if (route === "patent") { openDialog($("#patentDialog")); return; }
   if (route.startsWith("item-")) { const product = findProduct(route.slice(5)); if (product) openProductView(product); else navigate("home", { replace: true }); return; }
   if (route.startsWith("messages-")) { const product = findProduct(route.slice(9)); if (product) openChatView(product); else navigate("home", { replace: true }); return; }
   if (route.startsWith("rating-")) { const product = findProduct(route.slice(7)); if (product) { state.activeProduct = product; openDialog($("#ratingDialog")); } else navigate("home", { replace: true }); return; }
@@ -458,6 +477,9 @@ $("#clearFilters").addEventListener("click", () => navigate("home"));
 $$('[data-route]').forEach((button) => button.addEventListener("click", () => navigate(button.dataset.route === "messages" ? `messages-${state.activeProduct.id}` : button.dataset.route)));
 $("#openVerify").addEventListener("click", () => navigate("profile"));
 $("#openMeetup").addEventListener("click", () => navigate("meetup"));
+$("#openPatentDetails").addEventListener("click", () => navigate("patent"));
+$("#activateSmartMatch").addEventListener("click", runSmartMatch);
+$("#activateSmartMatchDialog").addEventListener("click", runSmartMatch);
 $("#openSell").addEventListener("click", () => navigate("sell"));
 $("#mobileSell").addEventListener("click", () => navigate("sell"));
 $$('[data-close]').forEach((button) => button.addEventListener("click", () => navigate("home")));

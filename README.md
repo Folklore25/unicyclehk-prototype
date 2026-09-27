@@ -36,6 +36,10 @@
 - GitHub Actions 自动检查并部署 GitHub Pages
 - 所有用户数据仅保存在当前浏览器，不会上传到 GitHub
 
+## CityUHK patent concept
+
+The prototype includes a concept-level **Smart Match** feature based on CityUHK IDF 414, “Method and Apparatus for Matching Buyers with Sellers in a Marketplace to Facilitate Trade” (US 11,030,690 B2). See [PATENT-INTEGRATION.md](PATENT-INTEGRATION.md) for verified sources, proposed adaptation and licensing boundaries.
+
 ## GitHub Pages 边界
 
 GitHub Pages 是静态托管。当前版本不会提供跨设备账号、共享商品数据库、真实大学邮件验证、实时聊天或付款。实现这些能力需要独立后端服务。

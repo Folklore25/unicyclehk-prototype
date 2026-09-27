@@ -83,6 +83,9 @@ const state = {
   pendingUniversity: initialUniversity,
   meetup: initialMeetup,
   pendingMeetup: initialMeetup,
+  meetupReturnRoute: "home",
+  smartBudget: "any",
+  smartCategory: "All",
   installPrompt: null,
 };
 
@@ -94,6 +97,12 @@ const searchInput = $("#searchInput");
 const sortSelect = $("#sortSelect");
 const toast = $("#toast");
 const toastText = $("#toastText");
+const discoverView = $("#discoverView");
+const smartMatchView = $("#smartMatchView");
+const smartMatchResults = $("#smartMatchResults");
+const freshListingCount = $("#freshListingCount");
+const smartBudget = $("#smartBudget");
+const smartCategory = $("#smartCategory");
 
 function icon(name) { return `<svg aria-hidden="true"><use href="#i-${name}"></use></svg>`; }
 
@@ -159,18 +168,49 @@ function productLocationScore(product) {
 function smartMatchScore(product) {
   const savedCategories = new Set(products.filter((item) => state.saved.has(item.id)).map((item) => item.category));
   const locationScore = productLocationScore(product) * 28;
+  const explicitCategoryScore = state.smartCategory !== "All" && product.category === state.smartCategory ? 24 : 0;
   const preferenceScore = savedCategories.has(product.category) ? 16 : 0;
   const recencyScore = Math.max(0, 10 - Math.min(product.age, 1440) / 144);
   const affordabilityScore = product.price <= 150 ? 6 : product.price <= 250 ? 3 : 0;
   const sellerScore = (Number.parseFloat(product.rating) || 4.5) * 2;
-  return locationScore + preferenceScore + recencyScore + affordabilityScore + sellerScore;
+  return locationScore + explicitCategoryScore + preferenceScore + recencyScore + affordabilityScore + sellerScore;
 }
 
 function runSmartMatch() {
-  state.sort = "smartMatch";
-  sortSelect.value = "smartMatch";
-  navigate("home");
+  state.smartBudget = smartBudget.value;
+  state.smartCategory = smartCategory.value;
+  if (state.route !== "smart-match") navigate("smart-match");
+  else renderSmartMatchPage();
   showToast("Smart Match ranked listings using this demo’s local signals");
+}
+
+function renderSmartMatchPage() {
+  const university = UNIVERSITIES[state.university];
+  const point = selectedMeetupPoint();
+  $("#smartAreaName").textContent = `${university.short} · ${point.name}`;
+  smartBudget.value = state.smartBudget;
+  smartCategory.value = state.smartCategory;
+  const budget = state.smartBudget === "any" ? Number.POSITIVE_INFINITY : Number(state.smartBudget);
+  const matches = products
+    .filter((product) => product.price <= budget && (state.smartCategory === "All" || product.category === state.smartCategory))
+    .sort((a, b) => smartMatchScore(b) - smartMatchScore(a));
+  const topMatches = matches.slice(0, 6);
+  smartMatchResults.innerHTML = topMatches.length
+    ? topMatches.map(productCard).join("")
+    : `<div class="smart-empty"><h3>No matches under these preferences</h3><p>Increase the budget or choose another category.</p></div>`;
+  $("#smartSummary").textContent = `${topMatches.length} strongest matches for ${university.short} · ${point.name}`;
+  freshListingCount.textContent = products.length;
+}
+
+function showDiscoverPage() {
+  discoverView.hidden = false;
+  smartMatchView.hidden = true;
+}
+
+function showSmartPage() {
+  discoverView.hidden = true;
+  smartMatchView.hidden = false;
+  renderSmartMatchPage();
 }
 
 function renderProducts(list = filteredProducts(), label = null) {
@@ -179,6 +219,7 @@ function renderProducts(list = filteredProducts(), label = null) {
   grid.hidden = list.length === 0;
   resultCount.textContent = label || `${list.length} ${list.length === 1 ? "item" : "items"} from verified students`;
   savedCount.textContent = state.saved.size;
+  freshListingCount.textContent = products.length;
 }
 
 function renderCurrentMarket() {
@@ -391,6 +432,7 @@ function updateMeetupDisplay() {
   const university = UNIVERSITIES[state.university];
   const point = selectedMeetupPoint();
   $("#currentMeetupName").textContent = `${university.short} · ${point.name}`;
+  $("#smartAreaName").textContent = `${university.short} · ${point.name}`;
   $("#nearUniversityLabel").textContent = `Near ${university.short}`;
   $("#previewUniversity").textContent = university.short;
   updateListingHandoverOptions();
@@ -413,7 +455,10 @@ function navigate(route, { replace = false } = {}) {
 
 function setActiveNavigation(route) {
   const baseRoute = route.startsWith("messages") ? "messages" : route;
-  $$(".nav-item, .mobile-nav button[data-route]").forEach((button) => button.classList.toggle("active", button.dataset.route === baseRoute));
+  $$(".nav-item, .mobile-nav button[data-route]").forEach((button) => {
+    const activeRoute = button.closest(".mobile-nav") && baseRoute === "smart-match" ? "home" : baseRoute;
+    button.classList.toggle("active", button.dataset.route === activeRoute);
+  });
 }
 
 function renderRoute(route) {
@@ -421,11 +466,13 @@ function renderRoute(route) {
   state.route = route;
   setActiveNavigation(route);
   if (route === "home") {
+    showDiscoverPage();
     state.category = "All"; state.query = ""; searchInput.value = "";
     $$(".category-chip").forEach((chip) => { const active = chip.dataset.category === "All"; chip.classList.toggle("active", active); chip.setAttribute("aria-pressed", active); });
     renderCurrentMarket(); return;
   }
-  if (route === "saved") { renderCurrentMarket(); window.scrollTo({ top: 0, behavior: "smooth" }); return; }
+  if (route === "saved") { showDiscoverPage(); renderCurrentMarket(); window.scrollTo({ top: 0, behavior: "smooth" }); return; }
+  if (route === "smart-match") { showSmartPage(); window.scrollTo({ top: 0, behavior: "smooth" }); return; }
   if (route === "sell") { restoreDraft(); openDialog($("#sellDialog")); return; }
   if (route === "profile") { openDialog($("#verifyDialog")); return; }
   if (route === "meetup") { openMeetupView(); return; }
@@ -453,16 +500,19 @@ function exportDemoData() {
   URL.revokeObjectURL(link.href); showToast("Demo data exported");
 }
 
-grid.addEventListener("click", (event) => {
+function handleProductGridClick(event) {
   const saveButton = event.target.closest("[data-save]");
   if (saveButton) { event.stopPropagation(); const product = findProduct(saveButton.dataset.save); if (product) toggleSave(product.id); return; }
   const card = event.target.closest("[data-product]");
   if (card) navigate(`item-${card.dataset.product}`);
-});
+}
+
+grid.addEventListener("click", handleProductGridClick);
+smartMatchResults.addEventListener("click", handleProductGridClick);
 
 searchInput.addEventListener("input", (event) => {
   state.query = event.target.value;
-  if (state.route !== "home") { history.replaceState({ route: "home" }, "", "#home"); state.route = "home"; setActiveNavigation("home"); }
+  if (state.route !== "home") { history.replaceState({ route: "home" }, "", "#home"); state.route = "home"; setActiveNavigation("home"); showDiscoverPage(); }
   renderCurrentMarket();
 });
 
@@ -476,16 +526,23 @@ $$('.category-chip').forEach((chip) => chip.addEventListener("click", () => {
 $("#clearFilters").addEventListener("click", () => navigate("home"));
 $$('[data-route]').forEach((button) => button.addEventListener("click", () => navigate(button.dataset.route === "messages" ? `messages-${state.activeProduct.id}` : button.dataset.route)));
 $("#openVerify").addEventListener("click", () => navigate("profile"));
-$("#openMeetup").addEventListener("click", () => navigate("meetup"));
+$("#openMeetup").addEventListener("click", () => { state.meetupReturnRoute = "home"; navigate("meetup"); });
+$("#smartAreaButton").addEventListener("click", () => { state.meetupReturnRoute = "smart-match"; navigate("meetup"); });
+$("#mobileSmartEntry").addEventListener("click", () => navigate("smart-match"));
 $("#openPatentDetails").addEventListener("click", () => navigate("patent"));
-$("#activateSmartMatch").addEventListener("click", runSmartMatch);
 $("#activateSmartMatchDialog").addEventListener("click", runSmartMatch);
+$("#runSmartPage").addEventListener("click", runSmartMatch);
 $("#openSell").addEventListener("click", () => navigate("sell"));
 $("#mobileSell").addEventListener("click", () => navigate("sell"));
-$$('[data-close]').forEach((button) => button.addEventListener("click", () => navigate("home")));
+$$('[data-close]').forEach((button) => button.addEventListener("click", () => {
+  if (button.dataset.close === "meetupDialog") navigate(state.meetupReturnRoute || "home");
+  else if (button.dataset.close === "patentDialog" && !smartMatchView.hidden) navigate("smart-match");
+  else navigate("home");
+}));
 $$('dialog').forEach((dialog) => {
-  dialog.addEventListener("cancel", (event) => { event.preventDefault(); navigate("home"); });
-  dialog.addEventListener("click", (event) => { if (event.target === dialog) navigate("home"); });
+  const returnRoute = () => dialog.id === "meetupDialog" ? state.meetupReturnRoute || "home" : dialog.id === "patentDialog" && !smartMatchView.hidden ? "smart-match" : "home";
+  dialog.addEventListener("cancel", (event) => { event.preventDefault(); navigate(returnRoute()); });
+  dialog.addEventListener("click", (event) => { if (event.target === dialog) navigate(returnRoute()); });
 });
 
 $("#formNext").addEventListener("click", () => { if (!validateStep(state.formStep)) return; state.formStep = Math.min(3, state.formStep + 1); saveDraft(); updateFormStep(); });
@@ -533,7 +590,9 @@ $("#applyMeetup").addEventListener("click", () => {
   persistState();
   updateMeetupDisplay();
   const areaName = `${UNIVERSITIES[state.university].short} · ${selectedMeetupPoint().name}`;
-  navigate("home");
+  const returnRoute = state.meetupReturnRoute || "home";
+  state.meetupReturnRoute = "home";
+  navigate(returnRoute);
   showToast(`${areaName} is now prioritised`);
 });
 

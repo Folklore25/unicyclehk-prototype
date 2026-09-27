@@ -38,7 +38,7 @@
 
 ## CityUHK patent concept
 
-The prototype includes a concept-level **Smart Match** feature based on CityUHK IDF 414, “Method and Apparatus for Matching Buyers with Sellers in a Marketplace to Facilitate Trade” (US 11,030,690 B2). See [PATENT-INTEGRATION.md](PATENT-INTEGRATION.md) for verified sources, proposed adaptation and licensing boundaries.
+The prototype includes a separate **Smart Match** workspace based on CityUHK IDF 414, “Method and Apparatus for Matching Buyers with Sellers in a Marketplace to Facilitate Trade” (US 11,030,690 B2). The workspace combines university, handover point, budget and category controls with transparent mock-scoring results. See [PATENT-INTEGRATION.md](PATENT-INTEGRATION.md) for verified sources, proposed adaptation and licensing boundaries.
 
 ## GitHub Pages 边界
 

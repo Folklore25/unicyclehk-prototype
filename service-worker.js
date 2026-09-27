@@ -1,4 +1,4 @@
-const CACHE_NAME = "unicyclehk-shell-v7";
+const CACHE_NAME = "unicyclehk-shell-v8";
 const APP_SHELL = [
   "./",
   "./index.html",

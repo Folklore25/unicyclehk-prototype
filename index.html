@@ -53,6 +53,9 @@
           <button class="nav-item active" data-route="home">
             <svg><use href="#i-home" /></svg><span>Discover</span>
           </button>
+          <button class="nav-item" data-route="smart-match">
+            <svg><use href="#i-sliders" /></svg><span>Smart Match</span><span class="ip-badge">IP</span>
+          </button>
           <button class="nav-item" data-route="saved">
             <svg><use href="#i-heart" /></svg><span>Saved</span><span class="nav-count" id="savedCount">2</span>
           </button>
@@ -96,9 +99,10 @@
         </header>
 
         <main id="main-content" class="container-fluid" tabindex="-1">
+          <div id="discoverView">
           <section class="intro-row">
             <div>
-              <p class="eyebrow"><span id="nearUniversityLabel">Near CityUHK</span> · 132 fresh listings</p>
+              <p class="eyebrow"><span id="nearUniversityLabel">Near CityUHK</span> · <span id="freshListingCount">12</span> fresh listings</p>
               <h1>Find what you need, <br /><em>right around campus.</em></h1>
             </div>
             <button class="campus-pill" id="openMeetup" type="button" aria-haspopup="dialog"><svg><use href="#i-map" /></svg><span><small>University & meet-up area</small><strong id="currentMeetupName">CityUHK · Main entrance</strong></span><svg class="chevron"><use href="#i-chevron" /></svg></button>
@@ -113,28 +117,42 @@
             <button class="category-chip" data-category="Lifestyle">Lifestyle</button>
           </section>
 
-          <section class="patent-feature" aria-labelledby="smart-match-title">
-            <div class="patent-copy">
-              <p class="eyebrow">CityUHK IP · IDF 414</p>
-              <h2 id="smart-match-title">Smart Match for student resale</h2>
-              <p>A concept adaptation of CityUHK’s buyer–seller marketplace matching patent, using campus, handover point, category, price and timing signals.</p>
-              <div class="patent-actions"><button class="primary-button" id="activateSmartMatch"><svg><use href="#i-sliders" /></svg>Try Smart Match</button><button class="text-link dark" id="openPatentDetails">View patent basis <svg><use href="#i-arrow" /></svg></button></div>
-            </div>
-            <div class="match-flow" aria-label="Buyer signals and seller listings feed into Smart Match">
-              <span><small>Buyer</small><strong>Needs + budget</strong></span><i>+</i><span><small>Seller</small><strong>Listing + timing</strong></span><b><svg><use href="#i-arrow" /></svg></b><span class="match-output"><small>Smart Match</small><strong>Ranked handovers</strong></span>
-            </div>
-            <p class="concept-label"><svg><use href="#i-shield" /></svg>Concept mock-up · licensing and technical validation required</p>
-          </section>
+          <button class="mobile-smart-entry" id="mobileSmartEntry"><span><svg><use href="#i-sliders" /></svg></span><span><small>CityUHK IP · IDF 414</small><strong>Open Smart Match</strong></span><svg><use href="#i-chevron" /></svg></button>
 
           <section class="market-section" aria-labelledby="market-title">
             <div class="section-head">
               <div><h2 id="market-title">Recommended near you</h2><p id="resultCount">6 items from verified students</p></div>
-              <label class="sort-control"><span class="sr-only">Sort listings</span><svg><use href="#i-sliders" /></svg><select id="sortSelect"><option value="recommended">Recommended</option><option value="smartMatch">Smart Match · CityU IP</option><option value="priceLow">Price: low to high</option><option value="newest">Newest first</option></select></label>
+              <label class="sort-control"><span class="sr-only">Sort listings</span><svg><use href="#i-sliders" /></svg><select id="sortSelect"><option value="recommended">Recommended</option><option value="priceLow">Price: low to high</option><option value="newest">Newest first</option></select></label>
             </div>
             <div class="product-grid" id="productGrid" aria-live="polite"></div>
             <div class="empty-state" id="emptyState" hidden>
               <svg><use href="#i-search" /></svg><h3>No matches yet</h3><p>Try a broader search or another category.</p><button class="secondary-button" id="clearFilters">Clear filters</button>
             </div>
+          </section>
+          </div>
+
+          <section class="smart-page" id="smartMatchView" hidden aria-labelledby="smart-page-title">
+            <header class="smart-page-hero">
+              <div><p class="eyebrow">CityUHK IP · IDF 414</p><h1 id="smart-page-title">A better match for every handover.</h1><p>Rank second-hand listings using campus proximity, handover preference, category, budget, recency and seller reputation.</p></div>
+              <div class="smart-patent-card"><span>Patent basis</span><strong>US 11,030,690 B2</strong><small>Buyer–seller marketplace matching</small><button class="text-link dark" id="openPatentDetails">Review the integration <svg><use href="#i-arrow" /></svg></button></div>
+            </header>
+
+            <div class="smart-workspace">
+              <section class="smart-controls" aria-labelledby="smart-controls-title">
+                <p class="eyebrow">Your matching signals</p><h2 id="smart-controls-title">Set your preferences</h2>
+                <button class="smart-area-button" id="smartAreaButton"><svg><use href="#i-map" /></svg><span><small>University and handover</small><strong id="smartAreaName">CityUHK · Main entrance</strong></span><svg><use href="#i-chevron" /></svg></button>
+                <div class="smart-fields"><label><span>Maximum budget</span><select id="smartBudget"><option value="any">Any price</option><option value="75">Up to HK$75</option><option value="150">Up to HK$150</option><option value="250">Up to HK$250</option><option value="500">Up to HK$500</option></select></label><label><span>Preferred category</span><select id="smartCategory"><option>All</option><option>Furniture</option><option>Appliances</option><option>Study</option><option>Electronics</option><option>Lifestyle</option></select></label></div>
+                <button class="primary-button full" id="runSmartPage"><svg><use href="#i-sliders" /></svg>Run Smart Match</button>
+                <p class="smart-disclaimer"><svg><use href="#i-shield" /></svg>Demo ranking only. Licensing and technical validation are required.</p>
+              </section>
+
+              <section class="smart-method" aria-labelledby="smart-method-title">
+                <p class="eyebrow">Transparent demo score</p><h2 id="smart-method-title">How matches are ranked</h2>
+                <div class="score-list"><div><span><strong>Campus and handover</strong><small>Same university and preferred exchange point</small></span><b>56%</b></div><div><span><strong>Category preference</strong><small>Signals from saved items and chosen category</small></span><b>16%</b></div><div><span><strong>Recency and price</strong><small>Fresh listings within the selected budget</small></span><b>16%</b></div><div><span><strong>Seller reputation</strong><small>Verified profile and exchange rating</small></span><b>12%</b></div></div>
+              </section>
+            </div>
+
+            <section class="smart-results" aria-labelledby="smart-results-title"><div class="section-head"><div><p class="eyebrow">Ranked results</p><h2 id="smart-results-title">Your strongest matches</h2><p id="smartSummary">Listings are ranked from the current demo signals.</p></div></div><div class="product-grid" id="smartMatchResults" aria-live="polite"></div></section>
           </section>
         </main>
       </div>

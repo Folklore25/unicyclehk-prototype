@@ -1,4 +1,4 @@
-const CACHE_NAME = "unicyclehk-shell-v5";
+const CACHE_NAME = "unicyclehk-shell-v6";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -7,10 +7,18 @@ const APP_SHELL = [
   "./manifest.webmanifest",
   "./assets/bootstrap.min.css",
   "./assets/bootstrap.bundle.min.js",
-  "./assets/product-sprite.webp",
-  "./assets/product-sprite.png",
-  "./assets/product-sprite-2.webp",
-  "./assets/product-sprite-2.png",
+  "./assets/products/01-table.webp",
+  "./assets/products/02-kettle.webp",
+  "./assets/products/03-office-chair.webp",
+  "./assets/products/04-yoga-mat.webp",
+  "./assets/products/05-induction-cooker.webp",
+  "./assets/products/06-floor-lamp.webp",
+  "./assets/products/07-microwave.webp",
+  "./assets/products/08-standing-mirror.webp",
+  "./assets/products/09-drying-rack.webp",
+  "./assets/products/10-bedside-cabinet.webp",
+  "./assets/products/11-desk-fan.webp",
+  "./assets/products/12-storage-trolley.webp",
   "./assets/icon.svg",
   "./assets/icon-192.png",
   "./assets/icon-512.png"

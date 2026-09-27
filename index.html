@@ -98,10 +98,10 @@
         <main id="main-content" class="container-fluid" tabindex="-1">
           <section class="intro-row">
             <div>
-              <p class="eyebrow">Near CityU · 132 fresh listings</p>
+              <p class="eyebrow"><span id="nearUniversityLabel">Near CityUHK</span> · 132 fresh listings</p>
               <h1>Find what you need, <br /><em>right around campus.</em></h1>
             </div>
-            <button class="campus-pill" id="openMeetup" type="button" aria-haspopup="dialog"><svg><use href="#i-map" /></svg><span><small>Meet-up area</small><strong id="currentMeetupName">CityU & Kowloon Tong</strong></span><svg class="chevron"><use href="#i-chevron" /></svg></button>
+            <button class="campus-pill" id="openMeetup" type="button" aria-haspopup="dialog"><svg><use href="#i-map" /></svg><span><small>University & meet-up area</small><strong id="currentMeetupName">CityUHK · Main entrance</strong></span><svg class="chevron"><use href="#i-chevron" /></svg></button>
           </section>
 
           <section class="category-strip" aria-label="Categories">
@@ -151,10 +151,10 @@
         </div>
         <div class="form-step" data-step="2">
           <div class="field-grid"><label><span>Price (HKD)</span><input required name="price" type="number" inputmode="numeric" min="0" placeholder="120" /></label><label><span>Condition</span><select required name="condition"><option>Like new</option><option>Good</option><option>Fair</option><option>Free</option></select></label></div>
-          <label><span>Preferred handover spot</span><select required name="location"><option>CityU main entrance</option><option>Festival Walk atrium</option><option>Kowloon Tong MTR Exit C</option><option>Student residence lobby</option></select></label>
+          <label><span>Preferred handover spot</span><select required name="location" id="listingHandover"></select></label>
           <div class="safety-note"><svg><use href="#i-shield" /></svg><div><strong>Keep the handover on campus</strong><p>Public, well-lit locations make exchanges safer for everyone.</p></div></div>
         </div>
-        <div class="form-step" data-step="3"><div class="listing-preview"><div class="preview-art"><svg><use href="#i-check" /></svg></div><div><p class="eyebrow">Ready to post</p><h3 id="previewTitle">Your item</h3><p>Your listing will be visible to verified students near CityU.</p></div></div></div>
+        <div class="form-step" data-step="3"><div class="listing-preview"><div class="preview-art"><svg><use href="#i-check" /></svg></div><div><p class="eyebrow">Ready to post</p><h3 id="previewTitle">Your item</h3><p>Your listing will be visible to verified students near <span id="previewUniversity">CityUHK</span>.</p></div></div></div>
         <div class="form-actions"><button type="button" class="secondary-button" id="formBack" disabled>Back</button><button type="button" class="primary-button" id="formNext">Continue</button><button type="submit" class="primary-button" id="formPublish" hidden>Publish listing</button></div>
       </form>
     </dialog>
@@ -173,25 +173,21 @@
     </dialog>
 
     <dialog id="meetupDialog" class="meetup-dialog">
-      <div class="dialog-header"><div><p class="eyebrow">Safe handover</p><h2>Choose a meet-up area</h2><p>We will prioritise listings around your preferred public exchange point.</p></div><button type="button" class="dialog-close static" data-close="meetupDialog" aria-label="Close meet-up selector"><svg><use href="#i-close" /></svg></button></div>
-      <div class="meetup-list" id="meetupList" role="group" aria-label="Available meet-up areas">
-        <button type="button" class="meetup-option" data-meetup="all"><span class="meetup-pin"><svg><use href="#i-map" /></svg></span><span><strong>CityU & Kowloon Tong</strong><small>All nearby listings</small></span><i class="verified-mini"><svg><use href="#i-check" /></svg></i></button>
-        <button type="button" class="meetup-option" data-meetup="cityu-main"><span class="meetup-pin"><svg><use href="#i-home" /></svg></span><span><strong>CityU main entrance</strong><small>Campus · covered meeting point</small></span><i class="verified-mini"><svg><use href="#i-check" /></svg></i></button>
-        <button type="button" class="meetup-option" data-meetup="festival-walk"><span class="meetup-pin"><svg><use href="#i-map" /></svg></span><span><strong>Festival Walk atrium</strong><small>Indoor · near MTR and campus</small></span><i class="verified-mini"><svg><use href="#i-check" /></svg></i></button>
-        <button type="button" class="meetup-option" data-meetup="mtr-exit-c"><span class="meetup-pin"><svg><use href="#i-map" /></svg></span><span><strong>Kowloon Tong MTR Exit C</strong><small>Transit · street-level exit</small></span><i class="verified-mini"><svg><use href="#i-check" /></svg></i></button>
-        <button type="button" class="meetup-option" data-meetup="residence"><span class="meetup-pin"><svg><use href="#i-home" /></svg></span><span><strong>Student residence lobby</strong><small>Residents · staffed common area</small></span><i class="verified-mini"><svg><use href="#i-check" /></svg></i></button>
-        <button type="button" class="meetup-option" data-meetup="nam-shan"><span class="meetup-pin"><svg><use href="#i-map" /></svg></span><span><strong>Nam Shan Estate plaza</strong><small>Outdoor · open public space</small></span><i class="verified-mini"><svg><use href="#i-check" /></svg></i></button>
-      </div>
+      <div class="dialog-header"><div><p class="eyebrow">Hong Kong universities</p><h2>Choose your handover area</h2><p>Select a university first, then choose a practical public exchange point nearby.</p></div><button type="button" class="dialog-close static" data-close="meetupDialog" aria-label="Close meet-up selector"><svg><use href="#i-close" /></svg></button></div>
+      <div class="location-step-title"><span>1</span><div><strong>University</strong><small>Hong Kong’s eight UGC-funded universities</small></div></div>
+      <div class="university-list" id="universityList" role="group" aria-label="Hong Kong universities"></div>
+      <div class="location-step-title"><span>2</span><div><strong>Meet-up point</strong><small id="meetupUniversityName">Near the selected university</small></div></div>
+      <div class="meetup-list" id="meetupList" role="group" aria-label="Available meet-up areas"></div>
       <p class="meetup-privacy"><svg><use href="#i-lock" /></svg>Your exact location is never requested or stored.</p>
       <button class="primary-button full" id="applyMeetup">Use this area</button>
     </dialog>
 
     <aside class="chat-panel" id="chatPanel" aria-label="Chat with seller" aria-hidden="true">
       <div class="chat-header"><button class="icon-button" id="closeChat" aria-label="Close chat"><svg><use href="#i-close" /></svg></button><div class="avatar seller-avatar">AL</div><div><strong id="chatSeller">Amelia</strong><span><i></i>Usually replies in 10 min</span></div></div>
-      <div class="chat-item" id="chatItem"><div class="mini-thumb product-image sprite-0"></div><div><small>About this item</small><strong>Compact study desk</strong><span>HK$180</span></div></div>
+      <div class="chat-item" id="chatItem"><div class="mini-thumb product-image static-image" style="background-image:url('assets/products/01-table.webp')"></div><div><small>About this item</small><strong>Solid wood dining table</strong><span>HK$320</span></div></div>
       <button class="handover-button" id="completeExchange"><svg><use href="#i-check" /></svg>Mark handover as complete</button>
       <div class="messages" id="messages"><p class="day-label">Today</p><div class="bubble received">Hi! Yes, it’s still available. The desk is already disassembled for easy pickup.</div><div class="bubble sent">Great, could we meet on campus?</div><div class="bubble received">Sure — CityU main entrance works for me.</div></div>
-      <div class="quick-replies"><button>Is this available?</button><button>Can we meet at CityU?</button></div>
+      <div class="quick-replies"><button>Is this available?</button><button>Can we meet on campus?</button></div>
       <form class="message-form" id="messageForm"><label><span class="sr-only">Message</span><input id="messageInput" placeholder="Write a message…" autocomplete="off" /></label><button aria-label="Send message"><svg><use href="#i-send" /></svg></button></form>
     </aside>
 

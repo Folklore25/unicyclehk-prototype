@@ -1,28 +1,62 @@
 const DEFAULT_PRODUCTS = [
-  { id: 1, title: "Solid wood dining table", category: "Furniture", price: 320, condition: "Good condition", location: "CityU residence", time: "12 min ago", age: 12, seller: "Amelia", initials: "AL", rating: "4.9 · 18 exchanges", image: 0, description: "Compact solid wood table from a student flat. Comfortable for two people and also works well as a study desk. A few light surface marks from normal use.", pickup: "Student residence lobby" },
-  { id: 2, title: "Stainless steel electric kettle", category: "Appliances", price: 70, condition: "Good condition", location: "Kowloon Tong", time: "28 min ago", age: 28, seller: "Rohan", initials: "RK", rating: "4.8 · 11 exchanges", image: 1, description: "1.7L electric kettle in full working order. Used for one academic year, cleaned and descaled before listing. Selling because I am leaving Hong Kong.", pickup: "Kowloon Tong MTR Exit C" },
-  { id: 3, title: "Black mesh office chair", category: "Furniture", price: 180, condition: "Well kept", location: "Festival Walk", time: "1 hr ago", age: 60, seller: "Minji", initials: "MK", rating: "5.0 · 9 exchanges", image: 2, description: "Comfortable mesh chair with adjustable height and armrests. The wheels and gas lift work properly. Ideal for studying at home.", pickup: "Festival Walk atrium" },
-  { id: 4, title: "Yoga mat with carry strap", category: "Lifestyle", price: 45, condition: "Lightly used", location: "CityU main campus", time: "2 hrs ago", age: 120, seller: "Nora", initials: "NZ", rating: "4.9 · 7 exchanges", image: 3, description: "Purple exercise mat with carrying strap. Used only a few times, wiped clean and ready to go. Easy to carry to the sports centre.", pickup: "CityU main entrance" },
-  { id: 5, title: "Portable induction cooker", category: "Appliances", price: 110, condition: "Works perfectly", location: "Shek Kip Mei", time: "Yesterday", age: 1440, seller: "Santiago", initials: "SM", rating: "4.7 · 14 exchanges", image: 4, description: "Single-zone induction cooker suitable for a small flat. All controls work and the cable is intact. Visible surface scratches do not affect use.", pickup: "Shek Kip Mei MTR Exit B2" },
-  { id: 6, title: "Floor lamp with bedside shelf", category: "Furniture", price: 90, condition: "Good condition", location: "CityU residence", time: "Yesterday", age: 1500, seller: "Eva", initials: "ET", rating: "4.9 · 22 exchanges", image: 5, description: "Warm floor lamp with two small shelves for books or bedside items. Bulb included. Slim design fits comfortably in a compact student room.", pickup: "Student residence lobby" },
-  { id: 7, title: "Compact microwave oven", category: "Appliances", price: 130, condition: "Works well", location: "Nam Shan Estate", time: "18 min ago", age: 18, seller: "Aarav", initials: "AP", rating: "4.8 · 12 exchanges", spriteSheet: 2, image: 0, description: "Compact microwave suitable for a shared student kitchen. Heating and timer controls work normally. Cleaned inside and ready for pickup.", pickup: "Nam Shan Estate plaza" },
-  { id: 8, title: "Full-length standing mirror", category: "Furniture", price: 95, condition: "Lightly used", location: "Kowloon Tong", time: "35 min ago", age: 35, seller: "Sofia", initials: "SC", rating: "5.0 · 6 exchanges", spriteSheet: 2, image: 1, description: "Slim full-length mirror with a stable metal frame. No cracks or chips. Easy to carry in a taxi or larger car.", pickup: "Kowloon Tong MTR Exit C" },
-  { id: 9, title: "Folding clothes drying rack", category: "Lifestyle", price: 55, condition: "Good condition", location: "CityU residence", time: "52 min ago", age: 52, seller: "Haruto", initials: "HM", rating: "4.9 · 16 exchanges", spriteSheet: 2, image: 2, description: "Lightweight folding drying rack with plenty of space for daily laundry. Folds flat for storage and has no broken rails.", pickup: "Student residence lobby" },
-  { id: 10, title: "Three-drawer bedside cabinet", category: "Furniture", price: 120, condition: "Used, sturdy", location: "CityU residence", time: "3 hrs ago", age: 180, seller: "Lina", initials: "LW", rating: "4.7 · 10 exchanges", spriteSheet: 2, image: 3, description: "Compact three-drawer cabinet with normal signs of use. Drawers open smoothly and it fits beside a single student bed.", pickup: "Student residence lobby" },
-  { id: 11, title: "Quiet desktop fan", category: "Appliances", price: 60, condition: "Good condition", location: "CityU main campus", time: "4 hrs ago", age: 240, seller: "Noah", initials: "NK", rating: "4.8 · 8 exchanges", spriteSheet: 2, image: 4, description: "Small desktop fan with two speed settings. Quiet enough for studying and useful during warm evenings in a compact room.", pickup: "CityU main entrance" },
-  { id: 12, title: "Slim rolling storage trolley", category: "Furniture", price: 85, condition: "Good condition", location: "Festival Walk", time: "Yesterday", age: 1480, seller: "Maya", initials: "MR", rating: "4.9 · 19 exchanges", spriteSheet: 2, image: 5, description: "Three-tier rolling trolley for toiletries, kitchen supplies or stationery. Wheels move smoothly and the narrow frame fits small flats.", pickup: "Festival Walk atrium" },
+  { id: 1, title: "Solid wood dining table", category: "Furniture", price: 320, condition: "Good condition", university: "cityu", location: "CityUHK · Residence", time: "12 min ago", age: 12, seller: "Amelia", initials: "AL", rating: "4.9 · 18 exchanges", asset: "assets/products/01-table.webp", description: "Compact solid wood table from a student flat. Comfortable for two people and also works well as a study desk. A few light surface marks from normal use.", pickup: "Student residence lobby" },
+  { id: 2, title: "Stainless steel electric kettle", category: "Appliances", price: 70, condition: "Good condition", university: "hku", location: "HKU · Pok Fu Lam", time: "28 min ago", age: 28, seller: "Rohan", initials: "RK", rating: "4.8 · 11 exchanges", asset: "assets/products/02-kettle.webp", description: "1.7L electric kettle in full working order. Used for one academic year, cleaned and descaled before listing. Selling because I am leaving Hong Kong.", pickup: "HKU MTR Exit A2" },
+  { id: 3, title: "Black mesh office chair", category: "Furniture", price: 180, condition: "Well kept", university: "cuhk", location: "CUHK · Sha Tin", time: "1 hr ago", age: 60, seller: "Minji", initials: "MK", rating: "5.0 · 9 exchanges", asset: "assets/products/03-office-chair.webp", description: "Comfortable mesh chair with adjustable height and armrests. The wheels and gas lift work properly. Ideal for studying at home.", pickup: "University MTR Exit A" },
+  { id: 4, title: "Yoga mat with carry strap", category: "Lifestyle", price: 45, condition: "Lightly used", university: "hkust", location: "HKUST · Clear Water Bay", time: "2 hrs ago", age: 120, seller: "Nora", initials: "NZ", rating: "4.9 · 7 exchanges", asset: "assets/products/04-yoga-mat.webp", description: "Purple exercise mat with carrying strap. Used only a few times, wiped clean and ready to go. Easy to carry to the sports centre.", pickup: "North Gate" },
+  { id: 5, title: "Portable induction cooker", category: "Appliances", price: 110, condition: "Works perfectly", university: "polyu", location: "PolyU · Hung Hom", time: "Yesterday", age: 1440, seller: "Santiago", initials: "SM", rating: "4.7 · 14 exchanges", asset: "assets/products/05-induction-cooker.webp", description: "Single-zone induction cooker suitable for a small flat. All controls work and the cable is intact. Visible surface scratches do not affect use.", pickup: "Hung Hom MTR Exit A1" },
+  { id: 6, title: "Floor lamp with bedside shelf", category: "Furniture", price: 90, condition: "Good condition", university: "hkbu", location: "HKBU · Kowloon Tong", time: "Yesterday", age: 1500, seller: "Eva", initials: "ET", rating: "4.9 · 22 exchanges", asset: "assets/products/06-floor-lamp.webp", description: "Warm floor lamp with two small shelves for books or bedside items. Bulb included. Slim design fits comfortably in a compact student room.", pickup: "Shaw Campus main entrance" },
+  { id: 7, title: "Compact microwave oven", category: "Appliances", price: 130, condition: "Works well", university: "eduhk", location: "EdUHK · Tai Po", time: "18 min ago", age: 18, seller: "Aarav", initials: "AP", rating: "4.8 · 12 exchanges", asset: "assets/products/07-microwave.webp", description: "Compact microwave suitable for a shared student kitchen. Heating and timer controls work normally. Cleaned inside and ready for pickup.", pickup: "University shuttle stop" },
+  { id: 8, title: "Full-length standing mirror", category: "Furniture", price: 95, condition: "Lightly used", university: "lingnan", location: "Lingnan · Tuen Mun", time: "35 min ago", age: 35, seller: "Sofia", initials: "SC", rating: "5.0 · 6 exchanges", asset: "assets/products/08-standing-mirror.webp", description: "Slim full-length mirror with a stable metal frame. No cracks or chips. Easy to carry in a taxi or larger car.", pickup: "Siu Hong MTR Exit F" },
+  { id: 9, title: "Folding clothes drying rack", category: "Lifestyle", price: 55, condition: "Good condition", university: "polyu", location: "PolyU · Student hall", time: "52 min ago", age: 52, seller: "Haruto", initials: "HM", rating: "4.9 · 16 exchanges", asset: "assets/products/09-drying-rack.webp", description: "Lightweight folding drying rack with plenty of space for daily laundry. Folds flat for storage and has no broken rails.", pickup: "Core A podium" },
+  { id: 10, title: "Three-drawer bedside cabinet", category: "Furniture", price: 120, condition: "Used, sturdy", university: "cityu", location: "CityUHK · Residence", time: "3 hrs ago", age: 180, seller: "Lina", initials: "LW", rating: "4.7 · 10 exchanges", asset: "assets/products/10-bedside-cabinet.webp", description: "Compact three-drawer cabinet with normal signs of use. Drawers open smoothly and it fits beside a single student bed.", pickup: "Student residence lobby" },
+  { id: 11, title: "Quiet desktop fan", category: "Appliances", price: 60, condition: "Good condition", university: "hkbu", location: "HKBU · Kowloon Tong", time: "4 hrs ago", age: 240, seller: "Noah", initials: "NK", rating: "4.8 · 8 exchanges", asset: "assets/products/11-desk-fan.webp", description: "Small desktop fan with two speed settings. Quiet enough for studying and useful during warm evenings in a compact room.", pickup: "Academic Community Hall" },
+  { id: 12, title: "Slim rolling storage trolley", category: "Furniture", price: 85, condition: "Good condition", university: "hku", location: "HKU · Pok Fu Lam", time: "Yesterday", age: 1480, seller: "Maya", initials: "MR", rating: "4.9 · 19 exchanges", asset: "assets/products/12-storage-trolley.webp", description: "Three-tier rolling trolley for toiletries, kitchen supplies or stationery. Wheels move smoothly and the narrow frame fits small flats.", pickup: "Haking Wong Podium" },
 ];
 
 const STORAGE_KEY = "unicyclehk-demo-v4";
 localStorage.removeItem("unicyclehk-demo-v3");
 const DEFAULT_SAVED = [2, 5];
-const MEETUP_AREAS = {
-  all: { name: "CityU & Kowloon Tong", terms: [] },
-  "cityu-main": { name: "CityU main entrance", terms: ["CityU main campus", "CityU main entrance", "CityU campus"] },
-  "festival-walk": { name: "Festival Walk atrium", terms: ["Festival Walk"] },
-  "mtr-exit-c": { name: "Kowloon Tong MTR Exit C", terms: ["Kowloon Tong"] },
-  residence: { name: "Student residence lobby", terms: ["CityU residence", "Student residence"] },
-  "nam-shan": { name: "Nam Shan Estate plaza", terms: ["Nam Shan Estate"] },
+const UNIVERSITIES = {
+  cityu: { short: "CityUHK", name: "City University of Hong Kong", points: [
+    { id: "cityu-main", name: "CityU main entrance", meta: "Campus · covered meeting point" },
+    { id: "festival-walk", name: "Festival Walk atrium", meta: "Indoor · near MTR and campus" },
+    { id: "cityu-residence", name: "Student residence lobby", meta: "Residents · staffed common area" },
+  ] },
+  hku: { short: "HKU", name: "The University of Hong Kong", points: [
+    { id: "hku-mtr", name: "HKU MTR Exit A2", meta: "Transit · street-level exit" },
+    { id: "hku-centennial", name: "Centennial Campus entrance", meta: "Campus · public entrance" },
+    { id: "hku-haking", name: "Haking Wong Podium", meta: "Campus · covered public area" },
+  ] },
+  cuhk: { short: "CUHK", name: "The Chinese University of Hong Kong", points: [
+    { id: "cuhk-mtr", name: "University MTR Exit A", meta: "Transit · campus connection" },
+    { id: "cuhk-yia", name: "Yasumoto International Academic Park", meta: "Campus · central meeting point" },
+    { id: "cuhk-bfc", name: "Benjamin Franklin Centre", meta: "Campus · public concourse" },
+  ] },
+  hkust: { short: "HKUST", name: "Hong Kong University of Science and Technology", points: [
+    { id: "hkust-north", name: "North Gate", meta: "Campus · transport drop-off" },
+    { id: "hkust-atrium", name: "Academic Building atrium", meta: "Indoor · central campus" },
+    { id: "hkust-south", name: "South Gate", meta: "Campus · public entrance" },
+  ] },
+  polyu: { short: "PolyU", name: "The Hong Kong Polytechnic University", points: [
+    { id: "polyu-mtr", name: "Hung Hom MTR Exit A1", meta: "Transit · near campus" },
+    { id: "polyu-main", name: "PolyU main entrance", meta: "Campus · public entrance" },
+    { id: "polyu-core-a", name: "Core A podium", meta: "Campus · covered area" },
+  ] },
+  hkbu: { short: "HKBU", name: "Hong Kong Baptist University", points: [
+    { id: "hkbu-shaw", name: "Shaw Campus main entrance", meta: "Campus · public entrance" },
+    { id: "hkbu-ach", name: "Academic Community Hall", meta: "Campus · covered area" },
+    { id: "hkbu-mtr", name: "Kowloon Tong MTR Exit E", meta: "Transit · near campus" },
+  ] },
+  lingnan: { short: "Lingnan", name: "Lingnan University", points: [
+    { id: "lingnan-mtr", name: "Siu Hong MTR Exit F", meta: "Transit · shuttle connection" },
+    { id: "lingnan-main", name: "Lingnan main entrance", meta: "Campus · public entrance" },
+    { id: "lingnan-wong", name: "Wong Administration Building", meta: "Campus · central area" },
+  ] },
+  eduhk: { short: "EdUHK", name: "The Education University of Hong Kong", points: [
+    { id: "eduhk-shuttle", name: "University shuttle stop", meta: "Transit · main drop-off" },
+    { id: "eduhk-main", name: "EdUHK main entrance", meta: "Campus · public entrance" },
+    { id: "eduhk-block-b", name: "Block B podium", meta: "Campus · covered area" },
+  ] },
 };
 const $ = (selector, scope = document) => scope.querySelector(selector);
 const $$ = (selector, scope = document) => [...scope.querySelectorAll(selector)];
@@ -36,14 +70,19 @@ function loadPersistedState() {
 
 const persisted = loadPersistedState();
 let products = [...(Array.isArray(persisted.products) ? persisted.products : []), ...DEFAULT_PRODUCTS];
+const initialUniversity = UNIVERSITIES[persisted.university] ? persisted.university : "cityu";
+const initialPoints = UNIVERSITIES[initialUniversity].points;
+const initialMeetup = initialPoints.some((point) => point.id === persisted.meetup) ? persisted.meetup : initialPoints[0].id;
 const state = {
   query: "", category: "All", sort: "recommended", route: "home",
   saved: new Set(Array.isArray(persisted.saved) ? persisted.saved : DEFAULT_SAVED),
   activeProduct: products[0], formStep: 1, rating: 0,
   messages: persisted.messages || {}, reviews: persisted.reviews || {},
   draft: persisted.draft || null, photoData: persisted.draft?.photoData || null,
-  meetup: MEETUP_AREAS[persisted.meetup] ? persisted.meetup : "all",
-  pendingMeetup: MEETUP_AREAS[persisted.meetup] ? persisted.meetup : "all",
+  university: initialUniversity,
+  pendingUniversity: initialUniversity,
+  meetup: initialMeetup,
+  pendingMeetup: initialMeetup,
   installPrompt: null,
 };
 
@@ -66,7 +105,7 @@ function showToast(message) {
 }
 
 function persistState({ quiet = true } = {}) {
-  const data = { products: products.filter((product) => product.local), saved: [...state.saved], messages: state.messages, reviews: state.reviews, draft: state.draft, meetup: state.meetup };
+  const data = { products: products.filter((product) => product.local), saved: [...state.saved], messages: state.messages, reviews: state.reviews, draft: state.draft, university: state.university, meetup: state.meetup };
   try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); return true; }
   catch { if (!quiet) showToast("This browser is out of local storage space"); return false; }
 }
@@ -75,8 +114,8 @@ function findProduct(id) { return products.find((product) => String(product.id) 
 
 function productImageMarkup(product, extraClass = "", label = product.title) {
   if (product.imageData) return `<div class="product-image custom-image ${extraClass}" style="background-image:url('${product.imageData}')" role="img" aria-label="${escapeHtml(label)}"></div>`;
-  const sheetClass = product.spriteSheet === 2 ? "sheet-2" : "";
-  return `<div class="product-image ${sheetClass} sprite-${product.image} ${extraClass}" role="img" aria-label="${escapeHtml(label)}"></div>`;
+  if (product.asset) return `<div class="product-image static-image ${extraClass}" style="background-image:url('${product.asset}')" role="img" aria-label="${escapeHtml(label)}"></div>`;
+  return `<div class="product-image static-image ${extraClass}" style="background-image:url('assets/products/01-table.webp')" role="img" aria-label="${escapeHtml(label)}"></div>`;
 }
 
 function productCard(product, index) {
@@ -105,13 +144,15 @@ function filteredProducts() {
   let sorted = [...list];
   if (state.sort === "priceLow") sorted.sort((a, b) => a.price - b.price);
   if (state.sort === "newest") sorted.sort((a, b) => a.age - b.age);
-  if (state.meetup !== "all") sorted.sort((a, b) => Number(productMatchesMeetup(b)) - Number(productMatchesMeetup(a)));
+  sorted.sort((a, b) => productLocationScore(b) - productLocationScore(a));
   return sorted;
 }
 
-function productMatchesMeetup(product) {
-  const terms = MEETUP_AREAS[state.meetup]?.terms || [];
-  return terms.some((term) => `${product.location} ${product.pickup}`.includes(term));
+function productLocationScore(product) {
+  let score = product.university === state.university ? 1 : 0;
+  const selectedPoint = UNIVERSITIES[state.university].points.find((point) => point.id === state.meetup);
+  if (selectedPoint && product.pickup === selectedPoint.name) score += 2;
+  return score;
 }
 
 function renderProducts(list = filteredProducts(), label = null) {
@@ -131,8 +172,9 @@ function renderCurrentMarket() {
   }
   $("#market-title").textContent = "Recommended near you";
   const list = filteredProducts();
-  const area = MEETUP_AREAS[state.meetup];
-  const label = state.meetup === "all" ? null : `${list.length} items · ${area.name} prioritised`;
+  const university = UNIVERSITIES[state.university];
+  const point = university.points.find((item) => item.id === state.meetup);
+  const label = `${list.length} items · ${university.short} and ${point.name} prioritised`;
   renderProducts(list, label);
 }
 
@@ -243,7 +285,7 @@ function validateStep(step) {
 
 function collectDraft() {
   const data = new FormData($("#sellForm"));
-  return { title: data.get("title") || "", category: data.get("category") || "", description: data.get("description") || "", price: data.get("price") || "", condition: data.get("condition") || "Like new", location: data.get("location") || "CityU main entrance", photoData: state.photoData, step: state.formStep };
+  return { title: data.get("title") || "", category: data.get("category") || "", description: data.get("description") || "", price: data.get("price") || "", condition: data.get("condition") || "Like new", location: data.get("location") || selectedMeetupPoint().name, photoData: state.photoData, step: state.formStep };
 }
 
 function saveDraft() { state.draft = collectDraft(); persistState(); }
@@ -265,6 +307,7 @@ function restoreDraft() {
   const form = $("#sellForm");
   form.reset();
   const draft = state.draft;
+  updateListingHandoverOptions(draft?.location);
   if (draft) {
     ["title", "category", "description", "price", "condition", "location"].forEach((name) => { if (form.elements[name] && draft[name] != null) form.elements[name].value = draft[name]; });
     state.formStep = Math.min(3, Math.max(1, Number(draft.step) || 1));
@@ -297,22 +340,51 @@ function compressPhoto(file) {
   });
 }
 
+function selectedMeetupPoint(universityCode = state.university, meetupId = state.meetup) {
+  const university = UNIVERSITIES[universityCode];
+  return university.points.find((point) => point.id === meetupId) || university.points[0];
+}
+
+function renderUniversityOptions() {
+  $("#universityList").innerHTML = Object.entries(UNIVERSITIES).map(([code, university]) => {
+    const selected = code === state.pendingUniversity;
+    return `<button type="button" class="university-option ${selected ? "selected" : ""}" data-university="${code}" aria-pressed="${selected}" title="${escapeHtml(university.name)}">${escapeHtml(university.short)}</button>`;
+  }).join("");
+}
+
 function renderMeetupOptions() {
-  $$(".meetup-option").forEach((option) => {
-    const selected = option.dataset.meetup === state.pendingMeetup;
-    option.classList.toggle("selected", selected);
-    option.setAttribute("aria-pressed", selected);
-  });
+  const university = UNIVERSITIES[state.pendingUniversity];
+  $("#meetupUniversityName").textContent = university.name;
+  $("#meetupList").innerHTML = university.points.map((point) => {
+    const selected = point.id === state.pendingMeetup;
+    return `<button type="button" class="meetup-option ${selected ? "selected" : ""}" data-meetup="${point.id}" aria-pressed="${selected}"><span class="meetup-pin">${icon("map")}</span><span><strong>${escapeHtml(point.name)}</strong><small>${escapeHtml(point.meta)}</small></span><i class="verified-mini">${icon("check")}</i></button>`;
+  }).join("");
 }
 
 function openMeetupView() {
+  state.pendingUniversity = state.university;
   state.pendingMeetup = state.meetup;
+  renderUniversityOptions();
   renderMeetupOptions();
   openDialog($("#meetupDialog"));
 }
 
 function updateMeetupDisplay() {
-  $("#currentMeetupName").textContent = MEETUP_AREAS[state.meetup].name;
+  const university = UNIVERSITIES[state.university];
+  const point = selectedMeetupPoint();
+  $("#currentMeetupName").textContent = `${university.short} · ${point.name}`;
+  $("#nearUniversityLabel").textContent = `Near ${university.short}`;
+  $("#previewUniversity").textContent = university.short;
+  updateListingHandoverOptions();
+}
+
+function updateListingHandoverOptions(preferredValue = null) {
+  const select = $("#listingHandover");
+  if (!select) return;
+  const points = UNIVERSITIES[state.university].points;
+  select.innerHTML = points.map((point) => `<option value="${escapeHtml(point.name)}">${escapeHtml(point.name)}</option>`).join("");
+  const selectedValue = preferredValue || selectedMeetupPoint().name;
+  if (points.some((point) => point.name === selectedValue)) select.value = selectedValue;
 }
 
 function routeFromLocation() { return location.hash.replace(/^#/, "") || "home"; }
@@ -406,7 +478,7 @@ $("#sellForm").addEventListener("input", () => {
 $("#sellForm").addEventListener("submit", (event) => {
   event.preventDefault();
   const data = new FormData(event.currentTarget);
-  const newProduct = { id: `local-${Date.now()}`, local: true, title: data.get("title"), category: data.get("category"), price: Number(data.get("price")), condition: data.get("condition"), location: "CityU campus", time: "Just now", age: 0, seller: "Xiao Ming", initials: "XM", rating: "New seller", image: 0, imageData: state.photoData, description: data.get("description"), pickup: data.get("location") };
+  const newProduct = { id: `local-${Date.now()}`, local: true, title: data.get("title"), category: data.get("category"), price: Number(data.get("price")), condition: data.get("condition"), university: state.university, location: `${UNIVERSITIES[state.university].short} · Local listing`, time: "Just now", age: 0, seller: "Xiao Ming", initials: "XM", rating: "New seller", imageData: state.photoData, description: data.get("description"), pickup: data.get("location") };
   products.unshift(newProduct); state.draft = null; state.photoData = null; event.currentTarget.reset(); state.formStep = 1;
   persistState({ quiet: false }); renderUploadPreview(null); navigate(`item-${newProduct.id}`); showToast("Your listing is now live on this device");
 });
@@ -417,16 +489,28 @@ $("#photoInput").addEventListener("change", async (event) => {
   catch (error) { showToast(error.message); }
 });
 
-$$(".meetup-option").forEach((option) => option.addEventListener("click", () => {
+$("#universityList").addEventListener("click", (event) => {
+  const option = event.target.closest("[data-university]");
+  if (!option) return;
+  state.pendingUniversity = option.dataset.university;
+  state.pendingMeetup = UNIVERSITIES[state.pendingUniversity].points[0].id;
+  renderUniversityOptions();
+  renderMeetupOptions();
+});
+
+$("#meetupList").addEventListener("click", (event) => {
+  const option = event.target.closest("[data-meetup]");
+  if (!option) return;
   state.pendingMeetup = option.dataset.meetup;
   renderMeetupOptions();
-}));
+});
 
 $("#applyMeetup").addEventListener("click", () => {
+  state.university = state.pendingUniversity;
   state.meetup = state.pendingMeetup;
   persistState();
   updateMeetupDisplay();
-  const areaName = MEETUP_AREAS[state.meetup].name;
+  const areaName = `${UNIVERSITIES[state.university].short} · ${selectedMeetupPoint().name}`;
   navigate("home");
   showToast(`${areaName} is now prioritised`);
 });

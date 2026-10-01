@@ -1,0 +1,20 @@
+{
+  "name": "unicyclehk-prototype",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=24" },
+  "scripts": {
+    "check": "node --check app.js && node --check service-worker.js && node scripts/validate-site.mjs",
+    "vendor": "node scripts/sync-vendor.mjs",
+    "build": "node scripts/build-site.mjs",
+    "test": "node --test tests/unit/*.test.mjs",
+    "test:e2e": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.63.0",
+    "bootstrap": "5.3.8",
+    "parse5": "8.0.1",
+    "yaml": "2.9.1"
+  }
+}

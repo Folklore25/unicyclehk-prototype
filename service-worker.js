@@ -1,4 +1,4 @@
-const CACHE_NAME = "unicyclehk-shell-v8";
+const CACHE_NAME = "unicyclehk-shell-v10";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -32,7 +32,7 @@ self.addEventListener("install", (event) => {
 self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches.keys()
-      .then((keys) => Promise.all(keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key))))
+      .then((keys) => Promise.all(keys.filter((key) => key.startsWith("unicyclehk-shell-") && key !== CACHE_NAME).map((key) => caches.delete(key))))
       .then(() => self.clients.claim())
   );
 });
@@ -64,7 +64,7 @@ self.addEventListener("fetch", (event) => {
       const update = fetch(request).then((response) => {
         if (response.ok) caches.open(CACHE_NAME).then((cache) => cache.put(request, response.clone()));
         return response;
-      });
+      }).catch((error) => { if (cached) return cached; throw error; });
       return cached || update;
     })
   );

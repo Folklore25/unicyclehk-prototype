@@ -56,19 +56,24 @@ svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width:
 .nav-dot, .notification-dot { display: block; border-radius: 50%; background: var(--coral); }
 .nav-dot { width: 8px; height: 8px; }
 
-.trust-card { margin-top: auto; padding: 18px; border: 0; border-radius: 3px; background: linear-gradient(135deg, var(--mint), #b50069 58%, var(--coral)); }
-.trust-icon { width: 42px; height: 42px; display: grid; place-items: center; margin-inline: auto; border-radius: 2px; color: var(--mint); background: #fff; }
-.trust-card .eyebrow { margin: 18px 0 5px; color: #fff; }
-.trust-card h2 { margin: 0; font-size: 17px; }
-.trust-card p:not(.eyebrow) { margin: 8px 0 14px; color: rgba(255,255,255,.86); font-size: 13px; line-height: 1.5; }
+.trust-card { margin-top: auto; padding: 16px; border: 1px solid rgba(255,255,255,.12); border-radius: 16px; background: rgba(255,255,255,.035); }
+.trust-card-header { display: flex; align-items: center; gap: 9px; color: #d6cbd1; font-size: 11px; font-weight: 600; line-height: 1.4; }
+.trust-icon { width: 30px; height: 30px; display: grid; place-items: center; flex: 0 0 auto; border-radius: 9px; color: #ff9dc9; background: rgba(229,0,125,.14); }
+.trust-icon svg { width: 17px; height: 17px; }
+.trust-card h2 { margin: 14px 0 0; color: #f6f1f4; font-size: 16px; font-weight: 650; line-height: 1.35; letter-spacing: -.015em; }
+.trust-card p { margin: 8px 0 14px; color: #b8afb5; font-size: 12px; line-height: 1.65; }
+.trust-card .text-link { width: 100%; justify-content: space-between; padding: 0 10px; border: 1px solid rgba(255,255,255,.12); border-radius: 10px; color: #eee5eb; background: rgba(255,255,255,.025); font-size: 12px; font-weight: 600; transition: background .2s ease, border-color .2s ease; }
+.trust-card .text-link:hover { border-color: rgba(255,157,201,.4); background: rgba(229,0,125,.1); }
 .text-link { min-height: 44px; display: inline-flex; align-items: center; gap: 7px; padding: 0; border: 0; color: #fff; background: none; font-weight: 700; font-size: 13px; }
 .text-link svg { width: 16px; height: 16px; transition: transform .2s ease; }
 .text-link:hover svg { transform: translateX(3px); }
-.side-profile { display: grid; grid-template-columns: 42px 1fr 24px; align-items: center; gap: 10px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,.12); }
+.side-profile { width: 100%; min-height: 64px; display: grid; grid-template-columns: 42px minmax(0, 1fr) 24px; align-items: center; flex-shrink: 0; gap: 10px; padding: 18px 0 0; border: 0; border-top: 1px solid rgba(255,255,255,.12); color: inherit; background: transparent; text-align: left; transition: background .2s ease, border-color .2s ease; }
+.side-profile:hover, .side-profile:focus-visible { background: rgba(255,255,255,.06); border-top-color: rgba(255,255,255,.35); }
+.side-profile.active { background: rgba(229,0,125,.18); border-top-color: var(--mint); }
 .avatar { width: 42px; height: 42px; display: grid; place-items: center; flex: 0 0 auto; border-radius: 50%; color: var(--ink); background: var(--yellow); font-weight: 800; }
-.side-profile strong, .side-profile span { display: block; }
+.side-profile-info, .side-profile-info strong, .side-profile-info > span { display: block; }
 .side-profile strong { font-size: 13px; }
-.side-profile div:nth-child(2) span { margin-top: 2px; color: #9fb7b5; font-size: 12px; }
+.side-profile-info > span { margin-top: 2px; color: #9fb7b5; font-size: 12px; }
 .verified-mini { width: 20px; height: 20px; display: grid !important; place-items: center; color: var(--ink); background: var(--mint); border-radius: 50%; }
 .verified-mini svg { width: 13px; height: 13px; stroke-width: 2.6; }
 

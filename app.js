@@ -121,10 +121,15 @@ function persistState({ quiet = true } = {}) {
 
 function findProduct(id) { return products.find((product) => String(product.id) === String(id)); }
 
+function safePhotoData(value) {
+  return typeof value === "string" && value.length <= 2_000_000 && /^data:image\/(?:jpeg|png|webp);base64,[A-Za-z0-9+/]+={0,2}$/.test(value) ? value : null;
+}
+
 function productImageMarkup(product, extraClass = "", label = product.title) {
-  if (product.imageData) return `<div class="product-image custom-image ${extraClass}" style="background-image:url('${product.imageData}')" role="img" aria-label="${escapeHtml(label)}"></div>`;
-  if (product.asset) return `<div class="product-image static-image ${extraClass}" style="background-image:url('${product.asset}')" role="img" aria-label="${escapeHtml(label)}"></div>`;
-  return `<div class="product-image static-image ${extraClass}" style="background-image:url('assets/products/01-table.webp')" role="img" aria-label="${escapeHtml(label)}"></div>`;
+  const photo = safePhotoData(product.imageData);
+  const asset = typeof product.asset === "string" && /^assets\/products\/[a-zA-Z0-9_-]+\.webp$/.test(product.asset) ? product.asset : "assets/products/01-table.webp";
+  const source = photo || asset;
+  return `<div class="product-image ${photo ? "custom-image" : "static-image"} ${extraClass}" style="background-image:url('${source}')" role="img" aria-label="${escapeHtml(label)}"></div>`;
 }
 
 function productCard(product, index) {
@@ -350,6 +355,7 @@ function collectDraft() {
 function saveDraft() { state.draft = collectDraft(); persistState(); }
 
 function renderUploadPreview(dataUrl) {
+  dataUrl = safePhotoData(dataUrl);
   const zone = $("#uploadZone");
   const heading = $("strong", zone);
   const helper = $(".upload-copy > span", zone);
@@ -370,7 +376,7 @@ function restoreDraft() {
   if (draft) {
     ["title", "category", "description", "price", "condition", "location"].forEach((name) => { if (form.elements[name] && draft[name] != null) form.elements[name].value = draft[name]; });
     state.formStep = Math.min(3, Math.max(1, Number(draft.step) || 1));
-    state.photoData = draft.photoData || null;
+    state.photoData = safePhotoData(draft.photoData);
   } else { state.formStep = 1; state.photoData = null; }
   renderUploadPreview(state.photoData);
   updateFormStep();
@@ -455,9 +461,10 @@ function navigate(route, { replace = false } = {}) {
 
 function setActiveNavigation(route) {
   const baseRoute = route.startsWith("messages") ? "messages" : route;
-  $$(".nav-item, .mobile-nav button[data-route]").forEach((button) => {
+  $$(".nav-item, .side-profile, .mobile-nav button[data-route]").forEach((button) => {
     const activeRoute = button.closest(".mobile-nav") && baseRoute === "smart-match" ? "home" : baseRoute;
     button.classList.toggle("active", button.dataset.route === activeRoute);
+    if (button.classList.contains("side-profile")) button.setAttribute("aria-expanded", baseRoute === "profile");
   });
 }
 

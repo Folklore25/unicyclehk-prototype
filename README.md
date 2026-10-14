@@ -65,7 +65,7 @@ npm run test:e2e
 - Actions 使用完整 commit SHA；只有部署 job 获得 Pages / OIDC 写权限，checkout 不保存 Git 凭据。
 - Gitleaks 固定版本并校验 SHA-256，输出中的密钥会被隐藏。需要本地检查时使用官方 Gitleaks CLI 的 `gitleaks git --redact --ignore-gitleaks-allow --log-opts="--all" .`。
 - npm 使用官方 registry 和锁定版本，安装时不执行依赖脚本；高危及严重漏洞会使审计失败。Bootstrap 本地文件必须与已审计 npm 包一致。
-- Dependabot 每周检查 npm 与 Actions 更新。更新 Bootstrap 后必须运行 `npm run vendor` 并提交生成的两个资源文件；Gitleaks 版本和校验值需一起维护。
+- 仓库不使用 Dependabot 自动更新 PR，依赖升级由人工执行。更新 Bootstrap 后必须运行 `npm run vendor` 并提交生成的两个资源文件；Gitleaks 版本和校验值需一起维护。
 - 浏览器回归覆盖账户入口、收藏、商品详情、聊天、Smart Match、发布与持久化，以及 HTML 注入、CSP、404 和离线行为。
 - 首页和 404 设置 CSP，限制脚本及网络连接到当前 origin，并拒绝内联脚本。样式暂保留 `unsafe-inline`，用于动态商品图片和现有行内样式。图片数据仅接受受限的 JPEG / PNG / WebP base64 或本地商品路径。
 
